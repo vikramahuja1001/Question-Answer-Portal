@@ -1,0 +1,10 @@
+{{extend 'layout2.html'}}
+<a href=createmessage.html>Compose a message</a></br></br>
+<h1>Messages</h1>
+<ul>{{for i in message:}}
+	<li><h4>{{=(A(i.title, _href=URL('completemessage', args=i.id)))}}</h4>
+	{{=(A('Delete it', _href=URL('deletemessage', args=i.id)))}}</br>
+	by      {{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}
+	on {{=i.posted_on}}</li>
+
+	{{pass}}</ul>

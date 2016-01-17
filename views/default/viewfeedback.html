@@ -1,0 +1,12 @@
+{{extend 'layout2.html'}}
+<ul>
+{{for i in feedback:}}
+<li><h3>{{=i.feedback}}</h3>
+
+posted by      {{=A((db.auth_user[i.userid].first_name),_href=URL('showfriends',args=i.userid))}}  {{=A((db.auth_user[i.userid].last_name),_href=URL('showfriends',args=i.userid))}}
+
+{{=prettydate(i.posted_on)}}</li>
+</br>
+{{pass}}
+</br></br>
+</ul>

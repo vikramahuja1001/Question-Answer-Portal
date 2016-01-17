@@ -1,0 +1,32 @@
+{{extend 'layout2.html'}}
+{{for i in userpage:}}
+<h2>NAME</h2>
+{{=i.first_name}} {{=i.last_name}}
+{{pass}}
+</br>
+<h2>HIS QUESTIONS</h2>
+{{for i in userpost:}}
+<h3>{{=(A(i.title, _href=URL('question', args=i.id)))}}</h3>
+{{=i.posted_on}}
+</br>
+{{pass}}
+</br>
+<h2>HIS IMAGE</h2>
+{{if len(userimage)!=0:}}
+{{for i in range(len(userimage)):}}
+{{if i==0:}}
+
+<img style="float:left" width="60px" src="{{=URL('download', args=userimage[0].files)}}" />
+
+{{pass}}
+{{pass}}
+
+
+{{else:}}
+
+<img style="float:left" width="40px"  src="{{=URL('static','images/mem1.png')}}" />
+
+
+
+{{pass}}
+

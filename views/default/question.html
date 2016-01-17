@@ -1,0 +1,257 @@
+{{extend 'layout2.html'}}
+
+{{db.answerratings.postid.default=project.id}}
+
+
+
+
+
+
+<script type="text/javascript">
+	 
+	$(document).ready(function(){
+	 
+	 // Scroll page to the bottom
+	  $('a.scrollToBottom').click(function(){
+	   
+	   $('html, body, .content').animate({scrollTop: $(document).height()}, 'slow');
+	    
+	    return false;
+	     
+	     });
+	     })
+     </script>
+     <script type="text/javascript">
+	      
+	     $(document).ready(function(){
+	      
+	      $('a.scrollToTop').click(function(){
+	       
+	       $('html, body').animate({scrollTop:0}, 'slow');
+	        
+	        return false;
+		 
+		 });
+		  
+		 })
+	 </script>
+
+	    <code></code>
+
+<!--POSTS-->
+{{for post in posts:}}
+<h2>QUESTION
+</h2>
+<div style="background: #000000; margin-bottom: 15px; padding: 30px;">
+
+	{{s=db(db.image.uploaded_by==post.posted_by).select(db.image.files,orderby=~db.image.uploaded_on)}}
+
+
+	{{if len(s)!=0:}}
+	{{for i in range(len(s)):}}
+	{{if i==0:}}
+
+	<img style="float:left" width="10%"  src="{{=URL('download', args=s[0].files)}}" border="3" />
+
+	{{pass}}
+	{{pass}}
+
+
+	{{else:}}
+
+	<img style="float:left" width="10%"  src="{{=URL('static','images/mem1.png')}}" border="3" />
+
+
+
+	{{pass}}
+
+
+	<p>
+	<h3>&nbsp;&nbsp;&nbsp;{{=post.title}}</h3>
+	</p>
+
+	<p>
+	{{=post.body}}
+	</p>
+
+</div>
+
+{{pass}}
+
+{{if auth.user:}}
+
+
+{{db.ratings.postid.default=project.id}}
+{{db.ratings.userids.default=auth.user.id}}
+{{aaa=db((db.ratings.userids==auth.user.id)&(db.ratings.postid==project.id)).select()}}
+{{if len(aaa)==0:}}
+{{=form3}}
+{{else:}}
+You cannot rate this question again.
+{{pass}}
+{{else:}}
+Please login to rate this question.
+{{pass}}
+</br></br>
+
+<h2><a href="#" class="scrollToBottom">Click here to write an answer/comment</a></h2>
+</br>
+<!--Answers-->
+
+
+<h2>Answers</h2>
+{{if len(answer)==0:}}
+No Answers till now.
+{{else:}}
+ <div style="background: #000000; margin-bottom: 5px; padding: 13px;">
+<p>{{for post in answer:}}
+ <div style="background: #472400;  padding: 12px;">
+
+		{{s=db(db.image.uploaded_by==post.posted_by).select(db.image.files,orderby=~db.image.uploaded_on)}}
+
+					
+					   
+			                 
+ {{if len(s)!=0:}}
+                   {{for i in range(len(s)):}}
+                   {{if i==0:}}
+   
+                   <img style="float:left" width="9%" src="{{=URL('download', args=s[0].files)}}" border="1" />
+   
+                {{pass}}
+              {{pass}}
+
+                {{else:}}
+		<img style="float:left" width="9%"  src="{{=URL('static','images/mem1.png')}}" border="1" />
+		
+                {{pass}}
+
+		{{db.answerratings.answerid == post.id}}	
+
+
+		                     
+		 
+		                          
+		                          <div class="postbody">
+
+		<big><b>{{=post.answer}}</b></big>
+
+	</div>
+		
+		
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  		
+
+		
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+posted <b>{{=prettydate(post.posted_on)}} </b>
+{{admins=db(db.admins.id>0).select(db.admins.name)}}
+{{experts=db(db.expert.id>0).select(db.expert.name)}}
+{{c=0}}
+
+
+
+
+
+{{for j in admins:}}
+{{if post.posted_by==j.name:}}
+by <b>ADMIN</b>
+{{c=1}}
+{{break}}
+{{pass}}
+{{if c ==0:}}
+{{for k in experts:}}
+{{if post.posted_by==k.name:}}
+by <b>EXPERT</b>
+{{c=2}}
+{{break}}
+{{pass}}
+{{pass}}
+{{if c==0:}}
+
+    
+    by <b>{{=A((db.auth_user[post.posted_by].first_name),_href=URL('showfriends',args=post.posted_by))}}  {{=A((db.auth_user[post.posted_by].last_name),_href=URL('showfriends',args=post.posted_by))}}
+    </b> 
+    
+    {{pass}}
+    
+    </br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="#" class="scrollToBottom">REPLY</a>
+    
+				</div>
+				</br>
+			{{pass}}
+		</div>
+		{{pass}}
+		</br></br>
+
+
+
+		<!-- LIKES -->
+		{{x=1}}
+		{{if len(likes):}}
+		{{a=0}}
+		{{ flag={} }}
+		<h3>Likes</h3><p>
+		{{for like in likes:}}
+		{{if db.auth_user[like.posted_by]:}}
+		{{ var = db.auth_user[like.posted_by].id }}
+		{{pass}}
+		{{ if not flag.has_key(var) : }}
+		{{ flag[var] = request.args(0) }}
+		<!--{{=db.auth_user[like.posted_by].id}}-->
+		{{a=a+1}}
+
+		{{pass}}
+
+		{{pass}}
+		{{=a}}
+		like this</p>
+		{{else:}}
+		<h4>No likes yet</h4>
+		{{pass}}
+		{{=form1}}
+
+		<!-- DISLIKES -->
+		{{if len(dislikes):}}
+		{{b=0}}
+		{{ flag1={} }}
+		<h3>Dislikes</h3><p>
+		{{for dislike in dislikes:}}
+		{{if db.auth_user[dislike.posted_by]:}}
+		{{ var = db.auth_user[dislike.posted_by].id }}
+		{{pass}}
+		{{ if not flag1.has_key(var) : }}
+		{{ flag1[var] = request.args(0) }}
+		<!--{{=db.auth_user[dislike.posted_by].id }}-->
+		{{b=b+1}}
+
+		{{pass}}
+
+		{{pass}}
+		{{=b}}
+		dislike this</p>
+		{{else:}}
+		<h4>No dislikes yet</h4>
+		{{pass}}
+		{{=form2}}
+
+
+
+
+
+
+
+
+
+
+
+		<h2>Write an Answer/Comment</h2>
+		</ br>
+
+		{{=form4}}
+		</br>
+		{{for i in posts:}}
+		Page counter:{{=i.counter}}
+		{{pass}}</br>
+		<a href="#" class="scrollToTop">Scroll to top</a>

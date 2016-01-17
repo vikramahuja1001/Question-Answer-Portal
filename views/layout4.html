@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Premium Series
+Description: A three-column, fixed-width blog design.
+Version    : 1.0
+Released   : 20090303
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>
+			{{=response.title or request.application}}
+		</title>
+		{{response.files.append(URL(request.application,'static','plugin_layouts/layouts/PremiumSeries/default.css'))}}
+		{{response.files.append(URL('static','plugin_layouts/superfish.js'))}}
+		{{include 'web2py_ajax.html'}}
+
+
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Old Blog Template - Free CSS Layout</title>
+		<meta name="keywords" content="free css layout, old blog template, CSS, HTML" />
+		<meta name="description" content="Old Blog Template - free website template provided by TemplateMo.com" />
+		<link href="../static/oldblog/templatemo_style.css" rel="stylesheet" type="text/css" />
+		<!--  Designed by w w w . t e m p l a t e m o . c o m  -->
+		<link rel="stylesheet" type="text/css" href="../static/oldblog/tabcontent.css" />
+		<script type="text/javascript" src="../static/oldblog/tabcontent.js">
+			/***********************************************
+			 * Tab Content script v2.2- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+			 * This notice MUST stay intact for legal use
+			 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+			 ***********************************************/
+		</script>
+
+
+
+	</head>
+	<body>
+		<!-- start header -->
+		{{try:}}{{=auth.navbar(action=URL('default','user'))}}{{except:pass}}
+
+		<!-- start header -->
+		<div id="header">
+
+
+
+			<div id="templatemo_header_panel">
+				<div id="templatemo_title_section">
+					<h1>QUESTION&ANSWER</h1>
+
+					A basic questions-answers portal implementation</div>
+			</div> <!-- end of templatemo header panel -->
+
+
+
+
+			<div id="templatemo_menu_panel">
+				<div id="templatemo_menu_section">
+					{{=MENU(response.menu,_class='web2py-menu')}}
+					<script>
+						jQuery(document).ready(function(){jQuery('ul.web2py-menu').superfish({delay:400});});
+					</script>
+
+				</div>
+			</div> <!-- end of menu -->
+
+
+
+
+
+		</div>
+		<!-- end header -->
+
+
+
+		<div id="templatemo_header_panel">
+			<div id="templatemo_title_section">
+				<h1>QUESTION&ANSWER</h1>
+
+				A basic questions-answers portal implementation</div>
+
+		</div> <!-- end of templatemo header panel -->
+		<div id="templatemo_menu_panel">
+			<div id="templatemo_menu_section">
+
+				{{=MENU(response.menu,_class='web2py-menu')}} 
+			</div>
+		</div> <!-- end of menu -->
+
+		<div id="templatemo_content_container">
+			<div id="templatemo_content">
+				<div id="templatemo_content_left">
+					<div class="flash">{{=response.flash or ''}}</div>
+
+					{{include}}
+
+
+				</div> <!-- end of content left -->
+
+				<div id="templatemo_content_right">
+
+					<div class="templatemo_right_section">
+						<div class="tag_section">
+							<ul id="countrytabs" class="shadetabs">
+								<li><a href="#" rel="search" class="selected">Search</a></li>                
+								<li><a href="#" rel="category">Category</a></li>
+								<li><a href="#" rel="archive">Archive</a></li>
+							</ul>
+						</div>
+
+						<div class="tabcontent_section">
+							<div id="search" class="tabcontent">
+								<form method="get" action="#">
+									<input class="inputfield" name="searchkeyword" type="text" id="searchkeyword"/>
+									<input type="submit" name="submit" class="button" value="Search" />
+								</form>                    
+							</div>
+
+							<div id="category" class="tabcontent">
+								<ul>
+									<li><a href="#">Lorem ipsum</a></li>
+									<li><a href="#">Duis mollis</a></li>
+									<li><a href="#">Maecenas adipiscing</a></li>
+									<li><a href="#">Nunc blandit orci</a></li>
+									<li><a href="#">Cum sociis natoque</a></li>
+								</ul>                        
+							</div>
+
+							<div id="archive" class="tabcontent">
+								<ul>
+									<li><a href="#">January 2009</a></li>
+									<li><a href="#">December 2008</a></li>
+									<li><a href="#">November 2008</a></li>
+									<li><a href="#">October 2008</a></li>
+									<li><a href="#">September 2008</a></li>
+								</ul>                         
+							</div>
+						</div>
+
+						<script type="text/javascript">
+
+							var countries=new ddtabcontent("countrytabs")
+countries.setpersist(true)
+	countries.setselectedClassTarget("link") //"link" or "linkparent"
+countries.init()
+
+	</script> <!--- end of tag -->
+</div>
+
+
+<div class="templatemo_right_section">
+	<h2>Recent Questions</h2>
+
+	{{aa=db(db.post.id>0).select(db.post.title,db.post.classification,db.post.id,db.post.posted_by,limitby=(0, 5),orderby=~db.post.posted_on)}}
+	{{for i in aa:}}
+	<ul>
+		<li>{{=(A(i.title, _href=URL('question', args=i.id)))}}</br>
+
+		posted by
+
+
+		{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}
+
+		in {{=A((db.classify[i.classification].topic),_href=URL('showtopic',args=i.classification))}}
+		</li>
+
+	</ul>   
+
+	{{pass}}
+	<a href=all.html>more...</a>
+</div>
+
+<div class="templatemo_right_section">
+	<h2>Most Rated</h2>
+	<ul>
+		<li><a href="#">January 2024</a></li>
+		<li><a href="#">December 2023</a></li>
+		<li><a href="#">November 2023</a></li>
+		<li><a href="#">October 2023</a></li>
+		<li><a href="#">September 2023</a></li>
+	</ul>  
+</div>
+
+<div class="templatemo_right_section">
+	<h2>Unanswered Questions</h2>
+
+	{{qwe=db(db.post.id>0).select(db.post.id,db.post.title,db.post.posted_by,db.post.posted_on,db.post.classification,limitby=(0,5),orderby=~db.post.posted_on)}}
+
+	{{qwe1=db(db.answer.id>0).select(db.answer.answer_id)}}
+
+
+
+
+
+	<ul>
+
+		{{for i in qwe:}}		  
+
+		{{qwerty=1}}
+		{{for j in qwe1:}}
+		{{if i.id==j.answer_id:}}
+		{{qwerty=0}}
+		{{break}}
+		{{pass}}
+		{{if qwerty==1:}}
+
+		<li>{{=(A(i.title, _href=URL('question', args=i.id)))}}</br>
+		posted by
+		{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}
+
+		in {{=A((db.classify[i.classification].topic),_href=URL('showtopic',args=i.classification))}}</li>
+		{{pass}}
+
+		{{pass}}
+		{{pass}}
+
+	</ul>
+	<a href=unanswered.html>more...</a>
+
+
+</div>
+
+<div class="templatemo_right_section">
+	<h2>Search</h2>
+	<form method="get" action="#">
+		<input class="inputfield" name="keyword" type="text" id="keyword"/>
+		<input type="submit" name="submit" class="button" value="Search" />
+	</form>
+</div>
+</div> <!-- end of right content -->
+ </div> <!-- end of content -->
+   </div> <!-- end of content container -->
+
+   <div id="templatemo_bottom_panel">
+	   <div id="templatemo_bottom_section">
+
+		   <div class="templatemo_bottom_section_content">
+
+			   <h3>Partner Links</h3>
+
+
+			   <li><a href="#">Mauris congue felis at nisi</a></li>
+
+			   <li><a href="#">Donec mattis rhoncus mi</a></li>
+
+			   <li><a href="#">Maecenas adipiscing</a></li>
+
+			   <li><a href="#">Nunc blandit orci</a></li>
+
+			   <li><a href="#">Cum sociis natoque</a></li>
+		   </ul>
+
+	   </div>
+
+	   <div class="templatemo_bottom_section_content">
+
+		   <h3>Other Links</h3>
+
+		   <ul>
+
+			   <li><a href="#">Terms</a></li>
+
+			   <li><a href="#">Privacy</a></li>
+
+			   <li><a href="#">About</a></li>          
+
+			   <li><a href="#">Contact</a></li>
+
+		   </ul>
+
+	   </div>
+
+	   <div class="templatemo_bottom_section_content">
+
+		   <h3>About this portal</h3>
+
+		   <p>Vivamus laoreet pharetra eros. In quam nibh, placerat ac, porta ac, molestie non, purus. Curabitur sem ante, condimentum non, cursus quis, eleifend non, libero. Nunc a nulla.</p>
+
+
+	   </div>
+
+   </div>
+
+   </div> <!-- end of templatemo bottom panel -->
+
+   <div id="footer">
+
+	   <p class="copyright">
+
+	   &copy;&nbsp;&nbsp;2009 All Rights Reserved &nbsp;&bull;&nbsp; Design by
+
+	   <a href="http://www.freecsstemplates.org/">
+
+		   Free CSS Templates
+
+	   </a>
+
+	   .
+
+	   </p>
+
+	   <p class="link">
+
+	   <a href="#">
+
+		   Privacy Policy
+
+	   </a>
+	   &nbsp;&#8226;&nbsp;
+	   <a href="#">
+		   Terms of Use
+	   </a>
+	   </p>
+   </div>
+ </body>
+ </html>

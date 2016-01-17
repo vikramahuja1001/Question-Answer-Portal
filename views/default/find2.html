@@ -1,0 +1,17 @@
+{{extend 'layout2.html'}}
+<h4>Search by Question Title</h4></br></br>
+<form action={{=URL('default','find3')}} method='POST'>
+	<input type="text" name = "si" placeholder="What would you like to ask"/>
+	<input type="submit" value="Submit" />
+</form>
+
+</br></br>
+
+<h4>Search by User Name</h4></br></br>
+
+<form action={{=URL('default','find3')}} method='POST'>
+	<input type="text" name = "si" placeholder="What would you like to ask" />
+	<input type="submit" value="Submit" />
+</form>
+
+{{pass}}

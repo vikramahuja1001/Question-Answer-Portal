@@ -1,0 +1,15 @@
+{{extend 'layout2.html'}}
+
+<h2>QUESTIONS BY TOPIC</h2>
+
+<ol>{{for i in topic:}}
+	<h3>
+
+
+		<li>{{=(A(i.topic, _href=URL('showtopic',args=i.id)))}}</li>
+		
+	</h3>
+
+
+	{{pass}}
+</ol>

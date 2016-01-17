@@ -1,0 +1,52 @@
+{{extend 'layout2.html'}}
+
+<h2>RECENT QUESTIONS</h2>
+<ol>{{for i in result:}}
+	{{bb=db((db.ratings.id>0)&(db.ratings.postid==i.id)).select(db.ratings.rating)}}
+
+	{{ss=db((db.answer.id>0)&(db.answer.answer_id==i.id)).select(db.answer.answer)}}
+	<h2>
+		<li>{{=(A(i.title, _href=URL('question', args=i.id)))}}</br>
+		{{if len(bb)!=0:}}
+		  RATINGS:
+		         {{c=0}}
+		         {{for k in bb:}}
+		         {{c=c+k.rating}}
+		         {{pass}}
+			 {{=c/len(bb)}}
+			 
+		    
+
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 {{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}</br></h2>
+
+		 {{else:}}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 {{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}</br></h2>
+	 {{pass}}
+
+
+
+
+	 <div class="comment_more">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{=len(ss)}} answers till now </span></div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+
+
+
+	posted by
+
+	
+	{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}	
+	
+	on {{=i.posted_on}}
+	in {{=A((db.classify[i.classification].topic),_href=URL('showtopic',args=i.classification))}}</br>
+
+
+
+
+	</li>
+	{{pass}}
+
+	{{pass}}
+</ol>

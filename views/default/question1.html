@@ -1,0 +1,100 @@
+{{extend 'layout2.html'}}
+<!--POSTS-->
+{{for post in posts:}}
+<h2>QUESTION NUMBER {{=post.id}}</h2>
+
+<p>
+<h3>{{=post.title}}</h3>
+</p>
+<p>
+{{=post.body}}
+</p>
+{{pass}}
+
+
+
+
+
+
+<!-- LIKES -->
+{{x=1}}
+{{if len(likes):}}
+{{a=0}}
+{{ flag={} }}
+<h3>Likes</h3><p>
+{{for like in likes:}}
+{{if db.auth_user[like.posted_by]:}}
+{{ var = db.auth_user[like.posted_by].id }}
+{{pass}}
+{{ if not flag.has_key(var) : }}
+{{ flag[var] = request.args(0) }}
+<!--{{=db.auth_user[like.posted_by].id}}-->
+{{a=a+1}}
+
+{{pass}}
+
+{{pass}}
+{{=a}}
+like this</p>
+{{else:}}
+<h4>No likes yet</h4>
+{{pass}}
+{{=form1}}
+
+<!-- DISLIKES -->
+{{if len(dislikes):}}
+{{b=0}}
+{{ flag1={} }}
+<h3>Dislikes</h3><p>
+{{for dislike in dislikes:}}
+{{if db.auth_user[dislike.posted_by]:}}
+{{ var = db.auth_user[dislike.posted_by].id }}
+{{pass}}
+{{ if not flag1.has_key(var) : }}
+{{ flag1[var] = request.args(0) }}
+<!--{{=db.auth_user[dislike.posted_by].id }}-->
+{{b=b+1}}
+
+{{pass}}
+
+{{pass}}
+{{=b}}
+dislike this</p>
+{{else:}}
+<h4>No dislikes yet</h4>
+{{pass}}
+{{=form2}}
+
+
+
+
+<!--Answers-->
+<h2>Answers</h2>
+<p>{{for post in answer:}}
+
+
+{{if len(result)!=0:}}
+{{for i in range(len(result)):}}
+{{if i==0:}}
+
+<img style="float:left" width="50px" src="{{=URL('download', args=result[0].files)}}" />
+{{pass}}
+{{pass}}
+
+{{else:}}
+<img style="float:left" width="50px"  src="{{=URL('static','images/mem1.png')}}" />
+
+
+
+{{pass}}
+
+{{=db.auth_user[post.posted_by].first_name}} {{=db.auth_user[post.posted_by].last_name}} on {{=post.posted_on}} said:</br>
+{{=post.answer}}
+</p>
+
+
+
+{{pass}}
+<h2>Write an Answer/Comment</h2>
+{{=form}}</ br>
+

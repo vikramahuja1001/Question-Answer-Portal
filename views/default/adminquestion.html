@@ -1,0 +1,202 @@
+{{extend 'layout2.html'}}
+
+
+
+
+
+<!--POSTS-->
+{{for post in posts:}}
+<h2>QUESTION
+</h2>
+<div style="background: #000000; margin-bottom: 15px; padding: 30px;">
+
+	{{s=db(db.image.uploaded_by==post.posted_by).select(db.image.files,orderby=~db.image.uploaded_on)}}
+
+
+	{{if len(s)!=0:}}
+	{{for i in range(len(s)):}}
+	{{if i==0:}}
+
+	<img style="float:left" width="90px" src="{{=URL('download', args=s[0].files)}}" />
+
+	{{pass}}
+	{{pass}}
+
+
+	{{else:}}
+
+	<img style="float:left" width="60px"  src="{{=URL('static','images/mem1.png')}}" />
+
+
+
+	{{pass}}
+
+
+	<p>
+	<h3>&nbsp;&nbsp;&nbsp;{{=post.title}}</h3>
+	</p>
+
+	<p>
+	{{=post.body}}
+	</p>
+
+</div>
+
+{{pass}}
+
+</br></br>
+
+</br>
+<!--Answers-->
+
+
+<h2>Answers</h2>
+{{if len(answer)==0:}}
+No Answers till now.
+{{else:}}
+ <div style="background: #000000; margin-bottom: 5px; padding: 13px;">
+<p>{{for post in answer:}}
+ <div style="background: #472400;  padding: 12px;">
+
+		{{s=db(db.image.uploaded_by==post.posted_by).select(db.image.files,orderby=~db.image.uploaded_on)}}
+
+					
+					   
+			                 
+ {{if len(s)!=0:}}
+                   {{for i in range(len(s)):}}
+                   {{if i==0:}}
+   
+                   <img style="float:left" width="9%" src="{{=URL('download', args=s[0].files)}}" />
+   
+                {{pass}}
+              {{pass}}
+
+                {{else:}}
+		<img style="float:left" width="45px"  src="{{=URL('static','images/mem1.png')}}" />
+		
+                {{pass}}
+
+
+
+		                     
+		 
+		                          
+		                          <div class="postbody">
+
+		<big><b>{{=post.answer}}</b></big>
+
+	</div>
+		
+		
+		
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+posted <b>{{=prettydate(post.posted_on)}} </b>
+{{admins=db(db.admins.id>0).select(db.admins.name)}}
+{{experts=db(db.expert.id>0).select(db.expert.name)}}
+{{c=0}}
+
+
+
+
+
+{{for j in admins:}}
+{{if post.posted_by==j.name:}}
+by <b>ADMIN</b>
+{{c=1}}
+{{break}}
+{{pass}}
+{{if c ==0:}}
+{{for k in experts:}}
+{{if post.posted_by==k.name:}}
+by <b>EXPERT</b>
+{{c=2}}
+{{break}}
+{{pass}}
+{{pass}}
+{{if c==0:}}
+
+    
+    by <b>{{=A((db.auth_user[post.posted_by].first_name),_href=URL('showfriends',args=post.posted_by))}}  {{=A((db.auth_user[post.posted_by].last_name),_href=URL('showfriends',args=post.posted_by))}}
+    </b> 
+    
+    {{pass}}
+    
+
+				</div>
+				</br>
+			{{pass}}
+		</div>
+		{{pass}}
+		</br></br>
+
+
+
+		<!-- LIKES -->
+		{{x=1}}
+		{{if len(likes):}}
+		{{a=0}}
+		{{ flag={} }}
+		<h3>Likes</h3><p>
+		{{for like in likes:}}
+		{{if db.auth_user[like.posted_by]:}}
+		{{ var = db.auth_user[like.posted_by].id }}
+		{{pass}}
+		{{ if not flag.has_key(var) : }}
+		{{ flag[var] = request.args(0) }}
+		<!--{{=db.auth_user[like.posted_by].id}}-->
+		{{a=a+1}}
+
+		{{pass}}
+
+		{{pass}}
+		{{=a}}
+		like this</p>
+		{{else:}}
+		<h4>No likes yet</h4>
+		{{pass}}
+		{{=form1}}
+
+		<!-- DISLIKES -->
+		{{if len(dislikes):}}
+		{{b=0}}
+		{{ flag1={} }}
+		<h3>Dislikes</h3><p>
+		{{for dislike in dislikes:}}
+		{{if db.auth_user[dislike.posted_by]:}}
+		{{ var = db.auth_user[dislike.posted_by].id }}
+		{{pass}}
+		{{ if not flag1.has_key(var) : }}
+		{{ flag1[var] = request.args(0) }}
+		<!--{{=db.auth_user[dislike.posted_by].id }}-->
+		{{b=b+1}}
+
+		{{pass}}
+
+		{{pass}}
+		{{=b}}
+		dislike this</p>
+		{{else:}}
+		<h4>No dislikes yet</h4>
+		{{pass}}
+		{{=form2}}
+
+
+
+
+
+
+
+
+
+
+
+		<h2>Write an Answer/Comment</h2>
+		</ br>
+
+		{{=form}}
+
+

@@ -1,0 +1,17 @@
+{{extend 'layout2.html'}}
+
+<h4>MY QUESTIONS</h4>
+<h3>Questions count:{{=len(result)}}<h3>
+<ol>
+	
+	{{for i in result:}}
+	<h3>
+		<li>{{=(A(i.title, _href=URL('myquestion', args=i.id)))}}</li>
+	
+	{{=(A('Delete it', _href=URL('delete', args=i.id)))}}
+	</br>
+	on {{=i.posted_on}}
+	in {{=db.classify[i.classification].topic}}</h3>
+	{{pass}}
+	
+</ol>

@@ -1,0 +1,22 @@
+{{extend 'layout2.html'}}
+
+<h2>MY FAVORITES</h2>
+<ol>{{for i in result:}}
+	<h3>
+		<li>{{=(A(i.title, _href=URL('question', args=i.id)))}}</li>
+
+	</h3>
+
+	posted by
+	{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}
+
+	on {{=i.posted_on}}
+	in {{=db.classify[i.classification].topic}}
+
+
+
+
+	{{pass}}
+</ol>
+{{pass}}
+

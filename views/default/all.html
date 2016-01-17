@@ -1,0 +1,81 @@
+{{extend 'layout2.html'}}
+
+<h4>RECENT QUESTIONS</h4></br></br>
+<ol>{{for i in result:}}
+	{{bb=db((db.ratings.id>0)&(db.ratings.postid==i.id)).select(db.ratings.rating)}}
+
+	{{ss=db((db.answer.id>0)&(db.answer.answer_id==i.id)).select(db.answer.answer)}}
+
+
+
+
+
+		<div class="post">
+			<div class="postdate"> <div class="month"></div></div>
+			
+
+			<div class="postbody">
+				<h2>{{=(A(i.title, _href=URL('question', args=i.id)))}}</h2>
+
+				<div class="posttext">
+
+
+					{{if auth.user:}}
+					{{tim=db(db.admins.id>0).select()}}
+					{{for j in tim:}}
+					{{if auth.user.id==j.id:}}
+					{{=(A('Delete it', _href=URL('delete1', args=i.id)))}}
+					{{break}}
+					{{pass}}
+					{{pass}}
+
+
+
+					{{if len(bb)!=0:}}
+					</br>
+					RATINGS:
+					{{c=0}}
+					{{for k in bb:}}
+					{{c=c+k.rating}}
+					{{pass}}
+					{{c/=len(bb)}}
+					
+					{{=("%0.2f" % c)}}
+
+					
+
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}
+					{{else:}}
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}
+					{{pass}}	
+
+					<div class="comment_more"><span><span>{{=len(ss)}} answers till now </span></span></div>
+
+			
+	
+
+
+
+
+by	{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name    ),_href=URL('showfriends',args=i.posted_by))}}
+
+					asked {{=prettydate(i.posted_on)}}
+					in {{=A((db.classify[i.classification].topic),_href=URL('showtopic',args=i.classification))}}</br>
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+		{{pass}}
+
+		{{pass}}
+	</ol>

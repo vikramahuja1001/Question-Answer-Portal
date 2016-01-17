@@ -1,0 +1,45 @@
+{{extend 'layout2.html'}}
+<h1>YOUR PAGE</h1>
+</br></br></br>
+{{if len(result1)!=0:}}
+{{for i in range(len(result1)):}}
+{{if i==0:}}
+
+<acronym title="Click to change your Profile Picture">
+	<a href=insertimage.html>
+		<img style="float:center" width="40%" height="40%" src="{{=URL('download', args=result1[0].files)}}" border="3" />
+	</a>
+	</acronym >
+
+	{{pass}}
+	{{pass}}
+
+
+	{{else:}}
+	<acronym title="Click to add a Pofile Picture">
+		<a href=insertimage.html>
+			<img style="float:center" width="250px"	src="{{=URL('static','images/mem1.png')}}" border="1" />
+		</a>
+		</acronym >
+
+
+		{{pass}}
+		</br>
+		</br></br>
+		<a href=mywall.html><h1>MY QUESTIONS</h1></a></br></br>
+		<a href=mywall1.html><h1>MY ANSWERS</h1></a></br></br>
+		<a href=printfavoriteall.html><h1>MY FAVORITES</h1></a></br></br>
+
+
+
+		{{for i in result:}}
+		<h2>Name:{{=i.first_name}} {{=i.last_name}}</h2></br></br>
+		<h2>Email:{{=i.email}}</h2></br></br>
+		{{pass}}
+		<a href=user/profile?_next=/project1/default/mypage><h4>Change Profile</h4></a></br>
+		
+
+
+
+
+

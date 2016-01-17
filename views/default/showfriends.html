@@ -1,0 +1,86 @@
+{{extend 'layout2.html'}}
+{{for i in userpage:}}
+<h2>NAME</h2>
+{{=i.first_name}} {{=i.last_name}}
+
+{{pass}}
+<h2>HIS IMAGE</h2>
+{{if len(userimage)!=0:}}
+{{for i in range(len(userimage)):}}
+ {{if i==0:}}
+  <img style="float:left" width="60px" src="{{=URL('download', args=userimage[0].files)}}" />
+  
+  {{pass}}
+ {{pass}}
+ 
+ {{else:}}
+ 
+ <img style="float:left" width="40px"  src="{{=URL('static','images/mem1.png')}}" />
+ {{pass}}
+ </br>
+ </br>
+ </br></br>
+
+
+
+<ol>{{for i in userpost:}}
+	{{bb=db((db.ratings.id>0)&(db.ratings.postid==i.id)).select(db.ratings.rating)}}
+
+	{{ss=db((db.answer.id>0)&(db.answer.answer_id==i.id)).select(db.answer.answer)}}
+
+
+
+
+
+		<div class="post">
+			<div class="postdate"> <div class="month"></div></div>
+			
+
+			<div class="postbody">
+				<h2>{{=(A(i.title, _href=URL('question', args=i.id)))}}</h2>
+
+				<div class="posttext">
+
+					{{if len(bb)!=0:}}
+					RATINGS:
+					{{c=0}}
+					{{for k in bb:}}
+					{{c=c+k.rating}}
+					{{pass}}
+					{{c/=len(bb)}}
+					{{=("%0.2f" % c)}}
+
+					
+
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}
+					{{else:}}
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}
+					{{pass}}	
+
+					<div class="comment_more"><span><span>{{=len(ss)}} answers till now </span></span></div>
+
+			
+	
+
+
+
+
+					on {{=i.posted_on}}
+					</br>
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+		{{pass}}
+
+		{{pass}}
+	</ol>

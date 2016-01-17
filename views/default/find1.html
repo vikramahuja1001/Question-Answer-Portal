@@ -1,0 +1,22 @@
+{{extend 'layout2.html'}}
+
+<h4>YOUR SEARCH</h4>
+{{for i in s:}}
+
+ {{=A((i.first_name),_href=URL('showfriends',args=i.id))}}  {{=A((i.last_name),_href=URL('showfriends',args=i.id))}}
+ </br>
+ {{pass}}
+
+ {{for j in ss:}}
+ {{if len(s)!=0:}}
+ {{for i in s:}}
+{{if i.id!=j.id:}}
+ {{=A((j.first_name),_href=URL('showfriends',args=j.id))}}  {{=A((j.last_name),_href=URL('showfriends',args=j.id))}}
+ </br>
+ {{break}}
+ {{pass}}
+ {{elif len(s)==0:}}
+ {{=A((j.first_name),_href=URL('showfriends',args=j.id))}}  {{=A((j.last_name),_href=URL('showfriends',args=j.id))}}
+   </br>
+   {{pass}}
+{{pass}}

@@ -1,0 +1,50 @@
+{{extend 'layout2.html'}}
+{{for post in posts:}}
+<h2>SEARCH RESULT</h2>
+<p>
+<h3>{{=post.title}}</h3>
+</p>
+<p>
+{{=post.body}}
+</p>
+{{pass}}
+<h2>Answers</h2>
+<p>{{for post in answer:}}
+
+
+
+{{s=db(db.image.uploaded_by==post.posted_by).select(db.image.files,orderby=~db.image.uploaded_on)}}
+
+
+
+
+
+{{if len(s)!=0:}}
+{{for i in range(len(s)):}}
+{{if i==0:}}
+
+<img style="float:left" width="50px" src="{{=URL('download', args=s[0].files)}}" />
+
+{{pass}}
+{{pass}}
+
+
+{{else:}}
+
+<img style="float:left" width="40px"  src="{{=URL('static','images/mem1.png')}}" />
+
+
+{{pass}}
+
+
+
+
+
+
+{{=db.auth_user[post.posted_by].first_name}} {{=db.auth_user[post.posted_by].last_name}} on {{=post.posted_on}} said:</br>
+{{=post.answer}}
+</p>
+{{pass}}
+<h2>Write an Answer</h2>
+{{=form}}</ br>
+

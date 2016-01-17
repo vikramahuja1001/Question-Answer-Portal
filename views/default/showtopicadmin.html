@@ -1,0 +1,20 @@
+{{extend 'layout2.html'}}
+
+<h2>RECENT QUESTIONS</h2>
+<ol>{{for i in users:}}
+	<h3>
+		<li>{{=(A(i.title, _href=URL('question', args=i.id)))}}</li>
+		{{=(A('Add to favorites', _href=URL('addfavorite', args=i.id)))}}
+	</h3>
+	{{=(A('Delete it', _href=URL('deletequestion', args=i.id)))}}
+
+	posted by
+
+	
+	{{=A((db.auth_user[i.posted_by].first_name),_href=URL('showfriends',args=i.posted_by))}}  {{=A((db.auth_user[i.posted_by].last_name),_href=URL('showfriends',args=i.posted_by))}}	
+	
+	on {{=i.posted_on}}
+	
+	{{pass}}
+</ol>
+{{pass}}
